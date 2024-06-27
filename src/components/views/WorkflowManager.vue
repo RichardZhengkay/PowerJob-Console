@@ -10,12 +10,22 @@
                 <el-form-item :label="$t('message.wfId')">
                     <el-input v-model="workflowQueryContent.workflowId" :placeholder="$t('message.wfId')"/>
                 </el-form-item>
-                <el-form-item :label="$t('message.keyword')">
-                    <el-input v-model="workflowQueryContent.keyword" :placeholder="$t('message.keyword')"/>
+                <el-form-item :label="$t('message.wfName')">
+                    <el-input v-model="workflowQueryContent.keyword" :placeholder="$t('message.wfName')"/>
+                </el-form-item>
+                <el-form-item :label="$t('message.status')">
+                  <el-select v-model="workflowQueryContent.status" :placeholder="$t('message.status')">
+                    <el-option
+                        v-for="item in workflowStatusOptions"
+                        :key="item.key"
+                        :label="item.label"
+                        :value="item.key">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="listWorkflow">{{$t('message.query')}}</el-button>
-                    <el-button type="cancel" @click="onClickReset">{{$t('message.reset')}}</el-button>
+                    <el-button @click="onClickReset">{{$t('message.reset')}}</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -68,12 +78,16 @@
 
     <!-- 第三行，分页插件 -->
     <el-row>
-        <el-pagination
-                layout="prev, pager, next"
-                :total="this.workflowPageResult.totalItems"
-                :page-size="this.workflowPageResult.pageSize"
-                @current-change="onClickChangePage"
-                :hide-on-single-page="true"/>
+      <el-pagination background
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total="this.workflowPageResult.totalItems"
+                     :current-page="this.workflowPageResult.index + 1"
+                     :page-size="this.workflowPageResult.pageSize"
+                     :page-sizes="[10, 20, 50, 100, 200]"
+                     @size-change="handleSizeChange"
+                     @current-change="onClickChangePage"
+                     :hide-on-single-page="true"
+      />
     </el-row>
     <el-dialog
             :title="$t('message.runByParameter')"
@@ -106,7 +120,8 @@
                     index: 0,
                     pageSize: 10,
                     workflowId: undefined,
-                    keyword: undefined
+                    keyword: undefined,
+                    status :undefined
                 },
                 // 工作流查询结果
                 workflowPageResult: {
@@ -114,6 +129,12 @@
                     totalItems: 0,
                     data: []
                 },
+                // 工作流状态选择
+                workflowStatusOptions: [
+                  {key: undefined, label: this.$t('message.all')},
+                  {key: 1, label: this.$t('message.enable1')},
+                  {key: 2, label: this.$t('message.disable')}
+                ],
                 // 复制loading
                 copyLoading: false,
                 // 新建工作流对象
@@ -143,6 +164,8 @@
             onClickReset() {
                 this.workflowQueryContent.workflowId = undefined;
                 this.workflowQueryContent.keyword = undefined;
+                this.workflowQueryContent.status = undefined
+                this.handleSizeChange(10)
             },
             // 开关工作流
             switchWorkflow(data) {
@@ -212,6 +235,11 @@
                 // 后端从0开始，前端从1开始
                 this.workflowQueryContent.index = index - 1;
                 this.listWorkflow();
+            },
+            handleSizeChange(pageSize){
+              this.workflowQueryContent.index = 0
+              this.workflowQueryContent.pageSize = pageSize
+              this.listWorkflow();
             },
             /** 复制工作流 */
             onClickCopy(data) {
