@@ -10,12 +10,22 @@
                     <el-form-item :label="$t('message.jobId')">
                         <el-input v-model="jobQueryContent.jobId" :placeholder="$t('message.jobId')"/>
                     </el-form-item>
-                    <el-form-item :label="$t('message.keyword')">
-                        <el-input v-model="jobQueryContent.keyword" :placeholder="$t('message.keyword')"/>
+                    <el-form-item :label="$t('message.jobName')">
+                        <el-input v-model="jobQueryContent.keyword" :placeholder="$t('message.jobName')"/>
+                    </el-form-item>
+                    <el-form-item :label="$t('message.status')">
+                      <el-select v-model="jobQueryContent.status" :placeholder="$t('message.status')">
+                        <el-option
+                            v-for="item in jobStatusOptions"
+                            :key="item.key"
+                            :label="item.label"
+                            :value="item.key">
+                        </el-option>
+                      </el-select>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="listJobInfos">{{$t('message.query')}}</el-button>
-                        <el-button type="cancel" @click="onClickReset">{{$t('message.reset')}}</el-button>
+                        <el-button @click="onClickReset">{{$t('message.reset')}}</el-button>
                     </el-form-item>
                 </el-form>
             </el-col>
@@ -89,12 +99,16 @@
 
         <!-- 第三行，分页插件 -->
         <el-row>
-            <el-pagination
-                    layout="prev, pager, next"
-                    :total="this.jobInfoPageResult.totalItems"
-                    :page-size="this.jobInfoPageResult.pageSize"
-                    @current-change="onClickChangePage"
-                    :hide-on-single-page="true"/>
+          <el-pagination background
+                         layout="total, sizes, prev, pager, next, jumper"
+                         :total="this.jobInfoPageResult.totalItems"
+                         :current-page="this.jobInfoPageResult.index + 1"
+                         :page-size="this.jobInfoPageResult.pageSize"
+                         :page-sizes="[10, 20, 50, 100, 200]"
+                         @size-change="handleSizeChange"
+                         @current-change="onClickChangePage"
+                         :hide-on-single-page="true"
+          />
         </el-row>
 
 
@@ -398,10 +412,10 @@
                     processorType: "",
                     processorInfo: "",
                     maxInstanceNum: 0,
-                    concurrency: 5,
+                    concurrency: 1,
                     instanceTimeLimit: 0,
                     instanceRetryNum: 0,
-                    taskRetryNum: 1,
+                    taskRetryNum: 0,
                     dispatchStrategy: undefined,
                     dispatchStrategyConfig: undefined,
 
@@ -434,7 +448,8 @@
                     index: 0,
                     pageSize: 10,
                     jobId: undefined,
-                    keyword: undefined
+                    keyword: undefined,
+                    status: undefined
                 },
                 // 任务列表（查询结果），包含index、pageSize、totalPages、totalItems、data（List类型）
                 jobInfoPageResult: {
@@ -442,6 +457,12 @@
                     totalItems: 0,
                     data: []
                 },
+                // 工作流状态选择
+                jobStatusOptions: [
+                  {key: undefined, label: this.$t('message.all')},
+                  {key: 1, label: this.$t('message.enable1')},
+                  {key: 2, label: this.$t('message.disable')}
+                ],
                 // 时间表达式选择类型
                 timeExpressionTypeOptions: [{key: "API", label: "API"}, {key: "CRON", label: "CRON"}, {key: "FIXED_RATE", label: this.$t('message.fixRate')}, {key: "FIXED_DELAY", label: this.$t('message.fixDelay')}, {key: "WORKFLOW", label: this.$t('message.workflow')}, {key: "DAILY_TIME_INTERVAL", label: this.$t('message.dailyTimeInterval')} ],
                 // 处理器类型
@@ -629,11 +650,17 @@
                 this.jobQueryContent.index = index - 1;
                 this.listJobInfos();
             },
+            handleSizeChange(pageSize) {
+              this.jobQueryContent.index = 0
+              this.jobQueryContent.pageSize = pageSize
+              this.listJobInfos()
+            },
             // 点击重置按钮
             onClickReset() {
                 this.jobQueryContent.keyword = undefined;
                 this.jobQueryContent.jobId = undefined;
-                this.listJobInfos();
+                this.jobQueryContent.status = undefined
+                this.handleSizeChange(10)
             },
             verifyPlaceholder(processorType) {
                 let res;
