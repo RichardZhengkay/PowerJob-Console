@@ -215,6 +215,8 @@ const cn = {
         'canceleded': '已取消',
         'wfWaiting': '等待调度',
         'waitingUpstream': '等待上游节点',
+        'enable1':'启用',
+        'disable': '停用',
 
         // 新增的提示信息
         'noSelect': '请至少选中一条数据',

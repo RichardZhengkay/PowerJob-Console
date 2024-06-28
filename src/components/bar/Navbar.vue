@@ -1,9 +1,10 @@
 <template>
     <div id="navbar">
         <div id="logo_content">
-            <a href="http://www.powerjob.tech/" target="_blank">
-                <img src="../../assets/powerjob-console-logo.png"  alt="logo"/>
-            </a>
+<!--          <a href="http://www.powerjob.tech/" target="_blank">-->
+<!--            <img src="../../assets/powerjob-console-logo.png" alt="logo"/>-->
+<!--          </a>-->
+          <img src="../../assets/powerjob-console-logo.png" alt="logo"/>
         </div>
 
         <div id="right_content">

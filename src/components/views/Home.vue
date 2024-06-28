@@ -16,10 +16,12 @@
                 <el-col :span="6">
                     <el-card shadow="always" style="text-align:center">
                         <div>
-                            <a href="https://github.com/PowerJob/PowerJob" target="_blank">{{$t('message.githubURL')}}</a>
+                          {{$t('message.githubURL')}}
+<!--                            <a href="https://github.com/PowerJob/PowerJob" target="_blank">{{$t('message.githubURL')}}</a>-->
                         </div>
                         <div>
-                            <a href="https://github.com/PowerJob/PowerJob/wiki" target="_blank">{{$t('message.docURL')}}</a>
+                          {{$t('message.docURL')}}
+<!--                            <a href="https://github.com/PowerJob/PowerJob/wiki" target="_blank">{{$t('message.docURL')}}</a>-->
                         </div>
                     </el-card>
                 </el-col>
@@ -59,20 +61,20 @@
             <el-col :span="6">
                 <div class="wrap">
                     <div class="grid-content bg-purple">
-                        <div class="text mTitle">{{$t('message.runningInstanceNum')}}</div>
-                        <div class="text mText">{{systemInfo.runningInstanceCount}}</div>
-                    </div>
-                    <i class="el-icon-timer"/>
-                </div>
-            </el-col>
-            <el-col :span="6">
-                <div class="wrap">
-                    <div class="grid-content bg-purple">
                         <div class="text mTitle">{{$t('message.recentFailedInstanceNum')}}</div>
                         <div class="text mText">{{systemInfo.failedInstanceCount}}</div>
                     </div>
                     <i class="el-icon-bell"/>
                 </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="wrap">
+                <div class="grid-content bg-purple">
+                  <div class="text mTitle">{{$t('message.runningInstanceNum')}}</div>
+                  <div class="text mText">{{systemInfo.runningInstanceCount}}</div>
+                </div>
+                <i class="el-icon-timer"/>
+              </div>
             </el-col>
             <el-col :span="6">
                 <div class="wrap">
@@ -151,19 +153,19 @@
                 that.systemInfo = res;
 
                 // 对比服务器时间和本地时间，误差超过一定时间弹窗警告
-                // let localTime=new Date().getTime();
-                // let serverTime = res.serverTime;
-                // console.log("localTime: %o, serverTime: %o", localTime, serverTime);
-                //
-                // let offset = localTime - serverTime;
-                // if (Math.abs(offset) > 60000) {
-                //     this.$notify({
-                //         title: '警告',
-                //         message: '调度中心服务器与本地存在时间差，可能影响任务调度准确性，建议排查时间问题！',
-                //         type: 'warning',
-                //         duration: 0
-                //     });
-                // }
+                let localTime=new Date().getTime();
+                let serverTime = res.serverTime;
+                console.log("localTime: %o, serverTime: %o", localTime, serverTime);
+
+                let offset = localTime - serverTime;
+                if (Math.abs(offset) > 60000) {
+                    this.$notify({
+                        title: '警告',
+                        message: '调度中心服务器与本地存在时间差，可能影响任务调度准确性，建议排查时间问题！',
+                        type: 'warning',
+                        duration: 0
+                    });
+                }
 
             });
         }

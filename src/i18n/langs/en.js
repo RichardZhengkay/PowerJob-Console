@@ -210,6 +210,8 @@ const en = {
         'canceleded': 'Canceled',
         'wfWaiting': 'Waiting',
         'waitingUpstream': 'Waiting upstream',
+        'enable1':'enable',
+        'disable': 'disable',
 
         // 新增的提示信息
         'noSelect': 'Please select at least one data item',

@@ -51,14 +51,14 @@
                     </el-menu-item>
 
 
-                    <el-submenu index="/oms/">
-                        <template slot="title">
-                            <i class="el-icon-data-analysis"/>
-                            <span>{{$t('message.tabContainerOps')}}</span>
-                        </template>
-                        <el-menu-item index="/oms/template">{{$t('message.tabTemplate')}}</el-menu-item>
-                        <el-menu-item index="/oms/containermanage">{{$t('message.tabContainerManager')}}</el-menu-item>
-                    </el-submenu>
+<!--                    <el-submenu index="/oms/">-->
+<!--                        <template slot="title">-->
+<!--                            <i class="el-icon-data-analysis"/>-->
+<!--                            <span>{{$t('message.tabContainerOps')}}</span>-->
+<!--                        </template>-->
+<!--                        <el-menu-item index="/oms/template">{{$t('message.tabTemplate')}}</el-menu-item>-->
+<!--                        <el-menu-item index="/oms/containermanage">{{$t('message.tabContainerManager')}}</el-menu-item>-->
+<!--                    </el-submenu>-->
 
                 </el-menu>
             </el-aside>
