@@ -15,12 +15,12 @@
             />
           </el-form-item>
 
-          <el-form-item :label="$t('message.wfInstanceId')">
-            <el-input
-              v-model="wfInstanceQueryContent.wfInstanceId"
-              :placeholder="$t('message.wfInstanceId')"
-            />
-          </el-form-item>
+<!--          <el-form-item :label="$t('message.wfInstanceId')">-->
+<!--            <el-input-->
+<!--              v-model="wfInstanceQueryContent.wfInstanceId"-->
+<!--              :placeholder="$t('message.wfInstanceId')"-->
+<!--            />-->
+<!--          </el-form-item>-->
 
           <el-form-item :label="$t('message.status')">
             <el-select v-model="wfInstanceQueryContent.status" :placeholder="$t('message.status')">
@@ -33,9 +33,19 @@
             </el-select>
           </el-form-item>
 
+          <el-form-item :label="$t('message.triggerTime')">
+            <el-date-picker
+                v-model="wfInstanceQueryContent.triggerTime"
+                type="datetimerange"
+                value-format="timestamp"
+                :start-placeholder="$t('message.startTime')"
+                :end-placeholder="$t('message.endTime')"
+            />
+          </el-form-item>
+
           <el-form-item>
             <el-button type="primary" @click="listWfInstances">{{$t('message.query')}}</el-button>
-            <el-button type="cancel" @click="onClickRest">{{$t('message.reset')}}</el-button>
+            <el-button @click="onClickRest">{{$t('message.reset')}}</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -56,10 +66,10 @@
         style="width: 100%"
         :row-class-name="wfInstanceTableRowClassName"
       >
-        <el-table-column :show-overflow-tooltip="true" prop="workflowId" :label="$t('message.wfId')" width="110" />
-        <el-table-column :show-overflow-tooltip="true" prop="workflowName" :label="$t('message.wfName')" />
+        <el-table-column :show-overflow-tooltip="true" prop="workflowId" :label="$t('message.wfId')" width="90" />
+        <el-table-column :show-overflow-tooltip="true" prop="workflowName" :label="$t('message.wfName')" width="400" />
         <el-table-column :show-overflow-tooltip="true" prop="wfInstanceId" :label="$t('message.wfInstanceId')" />
-        <el-table-column :show-overflow-tooltip="true" prop="status" :label="$t('message.status')" width="160">
+        <el-table-column :show-overflow-tooltip="true" prop="status" :label="$t('message.status')" width="90">
           <template slot-scope="scope">
             {{fetchWFStatus(scope.row.status)}}
           </template>
@@ -86,11 +96,15 @@
     <!-- 第三行，分页插件 -->
     <el-row>
       <el-col :span="24">
-        <el-pagination
-          :total="this.wfInstancePageResult.totalItems"
-          :page-size="this.wfInstancePageResult.pageSize"
-          @current-change="onClickChangeInstancePage"
-          layout="prev, pager, next"
+        <el-pagination background
+                       :total="this.wfInstancePageResult.totalItems"
+                       :current-page="this.wfInstancePageResult.index + 1"
+                       :page-size="this.wfInstancePageResult.pageSize"
+                       :page-sizes="[10, 20, 50, 100, 200]"
+                       @size-change="handleSizeChange"
+                       @current-change="onClickChangeInstancePage"
+                       layout="total, prev, pager, next, sizes"
+                       :hide-on-single-page="true"
         />
       </el-col>
     </el-row>
@@ -109,7 +123,8 @@ export default {
         pageSize: 10,
         wfInstanceId: undefined,
         workflowId: undefined,
-        status: ""
+        status: "",
+        triggerTime: undefined
       },
       // 查询结果
       wfInstancePageResult: {
@@ -140,7 +155,8 @@ export default {
       this.wfInstanceQueryContent.wfInstanceId = undefined;
       this.wfInstanceQueryContent.workflowId = undefined;
       this.wfInstanceQueryContent.status = "";
-      this.listWfInstances();
+      this.wfInstanceQueryContent.triggerTime = undefined
+      this.handleSizeChange(10)
     },
     // 查看工作流详情
     onClickShowDetail(data) {
@@ -170,6 +186,11 @@ export default {
     onClickChangeInstancePage(index) {
       // 后端从0开始，前端从1开始
       this.wfInstanceQueryContent.index = index - 1;
+      this.listWfInstances();
+    },
+    handleSizeChange(pageSize){
+      this.wfInstanceQueryContent.index = 0
+      this.wfInstanceQueryContent.pageSize = pageSize
       this.listWfInstances();
     },
     // 表单颜色

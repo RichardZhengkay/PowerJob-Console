@@ -7,21 +7,21 @@
           <el-form-item :label="$t('message.jobId')">
             <el-input v-model="instanceQueryContent.jobId" :placeholder="$t('message.jobId')" />
           </el-form-item>
-          <el-form-item :label="$t('message.instanceId')">
-            <el-input
-              v-model="instanceQueryContent.instanceId"
-              :placeholder="$t('message.instanceId')"
-            />
-          </el-form-item>
-          <el-form-item
-            v-if="instanceQueryContent.type === 'WORKFLOW'"
-            :label="$t('message.wfInstanceId')"
-          >
-            <el-input
-              v-model="instanceQueryContent.wfInstanceId"
-              :placeholder="$t('message.wfInstanceId')"
-            />
-          </el-form-item>
+<!--          <el-form-item :label="$t('message.instanceId')">-->
+<!--            <el-input-->
+<!--              v-model="instanceQueryContent.instanceId"-->
+<!--              :placeholder="$t('message.instanceId')"-->
+<!--            />-->
+<!--          </el-form-item>-->
+<!--          <el-form-item-->
+<!--            v-if="instanceQueryContent.type === 'WORKFLOW'"-->
+<!--            :label="$t('message.wfInstanceId')"-->
+<!--          >-->
+<!--            <el-input-->
+<!--              v-model="instanceQueryContent.wfInstanceId"-->
+<!--              :placeholder="$t('message.wfInstanceId')"-->
+<!--            />-->
+<!--          </el-form-item>-->
           <el-form-item :label="$t('message.status')">
             <el-select v-model="instanceQueryContent.status" :placeholder="$t('message.status')">
               <el-option
@@ -33,9 +33,19 @@
             </el-select>
           </el-form-item>
 
+          <el-form-item :label="$t('message.triggerTime')">
+            <el-date-picker
+                v-model="instanceQueryContent.triggerTime"
+                type="datetimerange"
+                value-format="timestamp"
+                :start-placeholder="$t('message.startTime')"
+                :end-placeholder="$t('message.endTime')"
+            />
+          </el-form-item>
+
           <el-form-item>
             <el-button type="primary" @click="listInstanceInfos">{{$t('message.query')}}</el-button>
-            <el-button type="cancel" @click="onClickRest">{{$t('message.reset')}}</el-button>
+            <el-button @click="onClickRest">{{$t('message.reset')}}</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -48,8 +58,8 @@
 
     <!-- 第二行，切换器 -->
     <el-tabs type="card" v-model="instanceQueryContent.type" @tab-click="listInstanceInfos">
-      <el-tab-pane :label="$t('message.normalInstance')" name="NORMAL" />
-      <el-tab-pane :label="$t('message.wfInstance')" name="WORKFLOW" />
+<!--      <el-tab-pane :label="$t('message.normalInstance')" name="NORMAL" />-->
+<!--      <el-tab-pane :label="$t('message.wfInstance')" name="WORKFLOW" />-->
     </el-tabs>
 
     <!-- 第三行，表单 -->
@@ -69,11 +79,11 @@
           width="155"
         />
         <el-table-column :show-overflow-tooltip="true" prop="instanceId" :label="$t('message.instanceId')" />
-        <el-table-column prop="status" :label="$t('message.status')" width="160">
+        <el-table-column prop="status" :label="$t('message.status')" width="90">
           <template slot-scope="scope">{{fetchStatus(scope.row.status)}}</template>
         </el-table-column>
-        <el-table-column  prop="actualTriggerTime" :label="$t('message.triggerTime')" width="150"/>
-        <el-table-column  prop="finishedTime" :label="$t('message.finishedTime')" width="150"/>
+        <el-table-column  prop="actualTriggerTime" :label="$t('message.triggerTime')" width="180"/>
+        <el-table-column  prop="finishedTime" :label="$t('message.finishedTime')" width="180"/>
 
         <el-table-column :label="$t('message.operation')" width="285">
           <template slot-scope="scope">
@@ -105,11 +115,15 @@
     <!-- 第四行，分页插件 -->
     <el-row>
       <el-col :span="24">
-        <el-pagination
-          :total="this.instancePageResult.totalItems"
-          :page-size="this.instancePageResult.pageSize"
-          @current-change="onClickChangeInstancePage"
-          layout="prev, pager, next"
+        <el-pagination background
+                       :total="this.instancePageResult.totalItems"
+                       :current-page="this.instancePageResult.index + 1"
+                       :page-size="this.instancePageResult.pageSize"
+                       :page-sizes="[10, 20, 50, 100, 200]"
+                       @size-change="handleSizeChange"
+                       @current-change="onClickChangeInstancePage"
+                       layout="total, prev, pager, next, sizes"
+                       :hide-on-single-page="true"
         />
       </el-col>
     </el-row>
@@ -171,7 +185,8 @@ export default {
         wfInstanceId: undefined,
         status: "",
         jobId: undefined,
-        type: "NORMAL"
+        type: "NORMAL",
+        triggerTime: undefined
       },
       // 实例查询结果
       instancePageResult: {
@@ -225,7 +240,8 @@ export default {
       this.instanceQueryContent.instanceId = undefined;
       this.instanceQueryContent.wfInstanceId = undefined;
       this.instanceQueryContent.status = "";
-      this.listInstanceInfos();
+      this.instanceQueryContent.triggerTime = undefined
+      this.handleSizeChange(10)
     },
     // 点击查询详情
     onClickShowDetail(data) {
@@ -262,6 +278,11 @@ export default {
     onClickChangeInstancePage(index) {
       // 后端从0开始，前端从1开始
       this.instanceQueryContent.index = index - 1;
+      this.listInstanceInfos();
+    },
+    handleSizeChange(pageSize){
+      this.instanceQueryContent.index = 0
+      this.instanceQueryContent.pageSize = pageSize
       this.listInstanceInfos();
     },
     instanceTableRowClassName({ row }) {
