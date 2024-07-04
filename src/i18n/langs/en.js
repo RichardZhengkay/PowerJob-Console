@@ -159,6 +159,9 @@ const en = {
         'runByParameter': 'Run by parameter',
         'enteringParameter': 'Entering Parameter',
         'taskTrackerBehavior':'TaskTracker Behavior',
+        'healthFirst': 'Health First',
+        'random': 'Random',
+        'specify': 'Specify',
 
         // workflowManage
         'wfId': 'Workflow ID',

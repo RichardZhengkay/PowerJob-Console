@@ -133,6 +133,9 @@ const cn = {
         'timeRange': '时间范围',
         'weekRange': '星期范围',
         'taskTrackerBehavior':'TaskTracker行为',
+        'healthFirst': '健康度优先',
+        'random': '随机',
+        'specify': '指定执行',
 
         // 任务实例管理
         'wfInstanceId': '工作流实例 ID',

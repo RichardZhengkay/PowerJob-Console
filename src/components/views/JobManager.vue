@@ -474,7 +474,7 @@
                 // 日志类型
                 logType: [{key: 1, label: 'ONLINE'}, {key: 2, label: 'LOCAL'}, {key: 3, label: 'STDOUT'}, {key: 4, label: 'LOCAL_AND_ONLINE'}, {key: 999, label: 'NULL'}],
                 // 分发类型
-                dispatchStrategy: [{key: 'HEALTH_FIRST', label: 'HEALTH_FIRST'}, {key: 'RANDOM', label: 'RANDOM'}, {key: 'SPECIFY', label: 'SPECIFY'}],
+                dispatchStrategy: [{key: 'HEALTH_FIRST', label: this.$t('message.healthFirst')}, {key: 'RANDOM', label: this.$t('message.random')}, {key: 'SPECIFY', label: this.$t('message.specify')}],
                 // TaskTracker 表现
                 taskTrackerBehavior: [{key: 1, label: 'NORMAL'}, {key: 11, label: 'PADDLING'}],
                 // 用户列表
