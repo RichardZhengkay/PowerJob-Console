@@ -7,21 +7,6 @@
           <el-form-item :label="$t('message.jobId')">
             <el-input v-model="instanceQueryContent.jobId" :placeholder="$t('message.jobId')" />
           </el-form-item>
-<!--          <el-form-item :label="$t('message.instanceId')">-->
-<!--            <el-input-->
-<!--              v-model="instanceQueryContent.instanceId"-->
-<!--              :placeholder="$t('message.instanceId')"-->
-<!--            />-->
-<!--          </el-form-item>-->
-<!--          <el-form-item-->
-<!--            v-if="instanceQueryContent.type === 'WORKFLOW'"-->
-<!--            :label="$t('message.wfInstanceId')"-->
-<!--          >-->
-<!--            <el-input-->
-<!--              v-model="instanceQueryContent.wfInstanceId"-->
-<!--              :placeholder="$t('message.wfInstanceId')"-->
-<!--            />-->
-<!--          </el-form-item>-->
           <el-form-item :label="$t('message.status')">
             <el-select v-model="instanceQueryContent.status" :placeholder="$t('message.status')">
               <el-option
@@ -55,12 +40,6 @@
         </div>
       </el-col>
     </el-row>
-
-    <!-- 第二行，切换器 -->
-    <el-tabs type="card" v-model="instanceQueryContent.type" @tab-click="listInstanceInfos">
-<!--      <el-tab-pane :label="$t('message.normalInstance')" name="NORMAL" />-->
-<!--      <el-tab-pane :label="$t('message.wfInstance')" name="WORKFLOW" />-->
-    </el-tabs>
 
     <!-- 第三行，表单 -->
     <el-row>
@@ -185,6 +164,7 @@ export default {
         wfInstanceId: undefined,
         status: "",
         jobId: undefined,
+        jobName: undefined,
         type: "NORMAL",
         triggerTime: undefined
       },

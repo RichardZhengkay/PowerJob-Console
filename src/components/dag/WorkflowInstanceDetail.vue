@@ -7,8 +7,14 @@
                 </div>
                 <div>
                     <el-button @click="fetchWfInstanceInfo">{{$t('message.refresh')}}</el-button>
-                    <el-button type="warning" @click="restart">{{$t('message.reRun')}}</el-button>
-                    <el-button type="danger" @click="stop">{{$t('message.stop')}}</el-button>
+
+                    <el-popconfirm title="您确定重试工作流实例吗？" @confirm="restart">
+                      <el-button style="margin-left: 15px;" slot="reference" type="warning">{{$t('message.reRun')}}</el-button>
+                    </el-popconfirm>
+
+                    <el-popconfirm title="您确定停止工作流实例吗？" @confirm="stop">
+                      <el-button style="margin-left: 15px;" slot="reference" type="danger">{{$t('message.stop')}}</el-button>
+                    </el-popconfirm>
                 </div>
             </div>
         </el-row>

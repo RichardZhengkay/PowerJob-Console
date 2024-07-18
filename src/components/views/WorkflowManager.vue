@@ -43,30 +43,33 @@
         <el-table :data="workflowPageResult.data" style="width: 100%" :type="isWorkflow ? 'selection' : null">
             <el-table-column :show-overflow-tooltip="true" prop="id" :label="$t('message.wfId')" width="120"/>
             <el-table-column :show-overflow-tooltip="true" prop="wfName" :label="$t('message.wfName')"/>
-            <el-table-column :show-overflow-tooltip="true" :label="$t('message.scheduleInfo')" >
+            <el-table-column :show-overflow-tooltip="true" :label="$t('message.scheduleInfo')" width="250">
                 <template slot-scope="scope">
                     {{scope.row.timeExpressionType}}  {{scope.row.timeExpression}}
                 </template>
             </el-table-column>
-            <el-table-column :show-overflow-tooltip="true" :label="$t('message.status')" width="80" v-if="!isWorkflow">
+            <el-table-column :show-overflow-tooltip="true" :label="$t('message.status')" width="110" v-if="!isWorkflow">
                 <template slot-scope="scope">
                     <el-switch v-model="scope.row.enable" active-color="#13ce66" inactive-color="#ff4949" @change="switchWorkflow(scope.row)"/>
                 </template>
             </el-table-column>
-            <el-table-column :show-overflow-tooltip="true" :label="$t('message.operation')" :width="isWorkflow ? 100 : 300">
+            <el-table-column :show-overflow-tooltip="true" :label="$t('message.operation')" :width="isWorkflow ? 100 : 240">
                 <template slot-scope="scope">
                     <div v-if="!isWorkflow">
                         <el-button size="mini" @click="onClickModifyWorkflow(scope.row)">{{$t('message.edit')}}</el-button>
-                        <el-button size="mini" @click="onClickCopy(scope.row)" :loading="copyLoading">{{$t('message.copy')}}</el-button>
                         <el-dropdown>
-                            <el-button :style="{marginRight: '10px', marginLeft: '10px'}" size="mini" @click="onClickRunWorkflow(scope.row)">{{$t('message.run')}}</el-button>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item>
-                                    <el-button size="mini" type="text" @click="onClickRunByParameter(scope.row)">{{$t('message.runByParameter')}}</el-button>
-                                </el-dropdown-item>
-                            </el-dropdown-menu>
+                          <el-popconfirm width="200" title="确定运行该工作流吗？" @confirm="onClickRunWorkflow(scope.row)">
+                            <el-button slot="reference" style="margin-left: 15px;" size="mini">{{$t('message.run')}}</el-button>
+                          </el-popconfirm>
+                          <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>
+                              <el-button size="mini" type="text" @click="onClickRunByParameter(scope.row)">{{$t('message.runByParameter')}}</el-button>
+                            </el-dropdown-item>
+                          </el-dropdown-menu>
                         </el-dropdown>
-                        <el-button size="mini" type="danger" @click="onClickDeleteWorkflow(scope.row)">{{$t('message.delete')}}</el-button>
+                        <el-popconfirm title="确定删除该工作流吗？" @confirm="onClickDeleteWorkflow(scope.row)">
+                          <el-button size="mini" style="margin-left: 15px;" type="danger" slot="reference">{{$t('message.delete')}}</el-button>
+                        </el-popconfirm>
                     </div>
                     <div v-if="isWorkflow">
                         <el-button size="mini" @click="onImportNode(scope.row)">引入</el-button>

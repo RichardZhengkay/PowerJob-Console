@@ -2,10 +2,10 @@
     <div id="job_manager">
 
         <!--第一行，条件搜索栏（row布局：gutter代表栅格间隔，span代表占用格数）-->
-        <el-row :gutter="20">
+        <el-row>
 
             <!-- 左侧搜索栏，占地面积 16/24 -->
-            <el-col :span="16">
+            <el-col>
                 <el-form :inline="true" :model="jobQueryContent" class="el-form--inline">
                     <el-form-item :label="$t('message.jobId')">
                         <el-input v-model="jobQueryContent.jobId" :placeholder="$t('message.jobId')"/>
@@ -23,24 +23,25 @@
                         </el-option>
                       </el-select>
                     </el-form-item>
+                    <el-form-item :label="$t('message.scheduleInfo')">
+                      <el-select v-model="jobQueryContent.timeExpressionType" :placeholder="$t('message.scheduleInfo')">
+                        <el-option
+                            v-for="item in scheduleInfoOptions"
+                            :key="item.key"
+                            :label="item.label"
+                            :value="item.key">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="listJobInfos">{{$t('message.query')}}</el-button>
                         <el-button @click="onClickReset">{{$t('message.reset')}}</el-button>
+                        <el-button type="primary" @click="onClickNewJob">{{$t('message.newJob')}}</el-button>
+                        <el-button type="success" @click="onClickJobInputButton">{{$t('message.inputJob')}}</el-button>
                     </el-form-item>
                 </el-form>
             </el-col>
 
-            <!-- 右侧新增任务按钮，占地面积 4/24 -->
-            <el-col :span="4">
-                <div style="float:right;">
-                    <el-button type="success" @click="onClickJobInputButton">{{$t('message.inputJob')}}</el-button>
-                </div>
-            </el-col>
-            <el-col :span="4">
-                <div style="float:right;padding-right:10px">
-                <el-button type="primary" @click="onClickNewJob">{{$t('message.newJob')}}</el-button>
-                </div>
-            </el-col>
         </el-row>
 
         <!--第二行，任务数据表格-->
@@ -71,7 +72,9 @@
                 <el-table-column :label="$t('message.operation')" width="150">
                     <template slot-scope="scope">
                         <el-button size="mini" type="text" @click="onClickModify(scope.row)">{{$t('message.edit')}}</el-button>
-                        <el-button size="mini" type="text" @click="onClickRun(scope.row)">{{$t('message.run')}}</el-button>
+                        <el-popconfirm width="200" title="确定运行该任务吗？" @confirm="onClickRun(scope.row)">
+                          <el-button style="margin-left: 10px;" size="mini" type="text" slot="reference">{{$t('message.run')}}</el-button>
+                        </el-popconfirm>
                         <el-dropdown trigger="click">
                             <el-button size="mini" type="text">{{$t('message.more')}}</el-button>
                             <el-dropdown-menu slot="dropdown">
@@ -88,7 +91,9 @@
                                     <el-button size="mini" type="text" @click="onClickJobExportButton(scope.row)">{{$t('message.export')}}</el-button>
                                 </el-dropdown-item>
                                 <el-dropdown-item>
-                                    <el-button size="mini" type="text" @click="onClickDeleteJob(scope.row)">{{$t('message.delete')}}</el-button>
+                                  <el-popconfirm title="确定删除该任务吗？" @confirm="onClickDeleteJob(scope.row)">
+                                    <el-button size="mini" type="text" slot="reference">{{$t('message.delete')}}</el-button>
+                                  </el-popconfirm>
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
@@ -449,7 +454,8 @@
                     pageSize: 10,
                     jobId: undefined,
                     keyword: undefined,
-                    status: undefined
+                    status: undefined,
+                    timeExpressionType: undefined
                 },
                 // 任务列表（查询结果），包含index、pageSize、totalPages、totalItems、data（List类型）
                 jobInfoPageResult: {
@@ -462,6 +468,16 @@
                   {key: undefined, label: this.$t('message.all')},
                   {key: 1, label: this.$t('message.enable1')},
                   {key: 2, label: this.$t('message.disable')}
+                ],
+                // 定时信息选择
+                scheduleInfoOptions: [
+                  {key: undefined, label: this.$t('message.all')},
+                  {key: 1, label: this.$t('message.api')},
+                  {key: 2, label: this.$t('message.cron')},
+                  {key: 3, label: this.$t('message.fixed_rate')},
+                  {key: 4, label: this.$t('message.fixed_delay')},
+                  {key: 5, label: this.$t('message.workflow')},
+                  {key: 11, label: this.$t('message.daily_time_interval')}
                 ],
                 // 时间表达式选择类型
                 timeExpressionTypeOptions: [{key: "API", label: "API"}, {key: "CRON", label: "CRON"}, {key: "FIXED_RATE", label: this.$t('message.fixRate')}, {key: "FIXED_DELAY", label: this.$t('message.fixDelay')}, {key: "WORKFLOW", label: this.$t('message.workflow')}, {key: "DAILY_TIME_INTERVAL", label: this.$t('message.dailyTimeInterval')} ],
@@ -531,11 +547,7 @@
                     if (res && res.data) {
                         res.data = res.data.map(item => {
                             const lifeCycle = item.lifeCycle;
-                            if (lifeCycle && lifeCycle.start && lifeCycle.end) {
-                                item.lifeCycle = [lifeCycle.start, lifeCycle.end];
-                            } else {
-                                item.lifeCycle = null;
-                            }
+                            item.lifeCycle = lifeCycle && lifeCycle.start && lifeCycle.end ? [lifeCycle.start, lifeCycle.end] : null
                             return item;
                         })
                     }
@@ -660,6 +672,7 @@
                 this.jobQueryContent.keyword = undefined;
                 this.jobQueryContent.jobId = undefined;
                 this.jobQueryContent.status = undefined
+                this.jobQueryContent.timeExpressionType = undefined
                 this.handleSizeChange(10)
             },
             verifyPlaceholder(processorType) {

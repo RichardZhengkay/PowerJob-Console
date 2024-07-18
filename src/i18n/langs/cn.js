@@ -136,6 +136,11 @@ const cn = {
         'healthFirst': '健康度优先',
         'random': '随机',
         'specify': '指定执行',
+        'api': 'API',
+        'cron': 'CRON',
+        'fixed_rate': '固定频率（毫秒）',
+        'fixed_delay': '固定延迟（毫秒）',
+        'daily_time_interval': '每日固定间隔',
 
         // 任务实例管理
         'wfInstanceId': '工作流实例 ID',

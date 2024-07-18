@@ -162,6 +162,11 @@ const en = {
         'healthFirst': 'Health First',
         'random': 'Random',
         'specify': 'Specify',
+        'api': 'API',
+        'cron': 'CRON',
+        'fixed_rate': 'FIXED_RATE',
+        'fixed_delay': 'FIXED_DELAY',
+        'daily_time_interval': 'DAILY_TIME_INTERVAL',
 
         // workflowManage
         'wfId': 'Workflow ID',

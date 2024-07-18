@@ -82,12 +82,13 @@
             <el-button type="primary" size="mini" @click="onClickShowDetail(scope.row)"
               >{{$t('message.detail')}}</el-button
             >
-            <el-button type="danger" size="mini" @click="onClickStop(scope.row)"
-              >{{$t('message.stop')}}</el-button
-            >
-            <el-button type="warning" size="mini" @click="restart(scope.row)"
-              >{{$t('message.reRun')}}</el-button
-            >
+            <el-popconfirm title="您确定停止工作流实例吗？" @confirm="onClickStop(scope.row)">
+              <el-button style="margin-left: 15px;" slot="reference" type="danger" size="mini">{{$t('message.stop')}}</el-button>
+            </el-popconfirm>
+
+            <el-popconfirm title="您确定重试工作流实例吗？" @confirm="restart(scope.row)">
+              <el-button style="margin-left: 15px;" slot="reference" type="warning" size="mini">{{$t('message.reRun')}}</el-button>
+            </el-popconfirm>
           </template>
         </el-table-column>
       </el-table>
