@@ -76,16 +76,12 @@
               type="success"
               @click="onClickShowLog(scope.row)"
             >{{$t('message.log')}}</el-button>
-            <el-button
-              size="mini"
-              type="warning"
-              @click="onClickRetryJob(scope.row)"
-            >{{$t('message.reRun')}}</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="onClickStop(scope.row)"
-            >{{$t('message.stop')}}</el-button>
+            <el-popconfirm title="您确定重试该任务吗？" @confirm="onClickRetryJob(scope.row)">
+              <el-button style="margin-left: 15px;" slot="reference" type="warning" size="mini">{{$t('message.reRun')}}</el-button>
+            </el-popconfirm>
+            <el-popconfirm title="您确定停止该任务吗？" @confirm="onClickStop(scope.row)">
+              <el-button style="margin-left: 15px;" slot="reference" type="danger" size="mini">{{$t('message.stop')}}</el-button>
+            </el-popconfirm>
           </template>
         </el-table-column>
       </el-table>
