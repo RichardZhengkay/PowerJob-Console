@@ -227,15 +227,20 @@
                 </el-form-item>
                 <el-form-item :label="$t('message.retryConfig')">
                     <el-row>
-                        <el-col :span="12">
+                        <el-col :span="8">
                             <el-input :placeholder="$t('message.taskRetryTimes')" v-model="modifiedJobForm.instanceRetryNum" class="ruleContent">
                                 <template slot="prepend">{{$t('message.taskRetryTimes')}}</template>
                             </el-input>
                         </el-col>
-                        <el-col :span="12">
+                        <el-col :span="8">
                             <el-input :placeholder="$t('message.subTaskRetryTimes')" v-model="modifiedJobForm.taskRetryNum" class="ruleContent">
                                 <template slot="prepend">{{$t('message.subTaskRetryTimes')}}</template>
                             </el-input>
+                        </el-col>
+                        <el-col :span="8">
+                          <el-input :placeholder="$t('message.retryIntervalTime')" v-model="modifiedJobForm.retryIntervalTime" class="ruleContent">
+                            <template slot="prepend">{{$t('message.retryIntervalTime')}}</template>
+                          </el-input>
                         </el-col>
                     </el-row>
                 </el-form-item>
@@ -421,6 +426,7 @@
                     instanceTimeLimit: 0,
                     instanceRetryNum: 0,
                     taskRetryNum: 0,
+                    retryIntervalTime: 0,
                     dispatchStrategy: undefined,
                     dispatchStrategyConfig: undefined,
 

@@ -157,6 +157,7 @@ const cn = {
         'lastModifiedTime': '最后编辑时间',
         'lastReportTime': '最后上报时间',
         'failedCnt':'失败数',
+        'retryIntervalTime':'重试间隔时间(秒)',
         'expectedTriggerTime': '预计执行时间',
         'result': '任务结果',
         'taskDetail': 'Task 统计',
