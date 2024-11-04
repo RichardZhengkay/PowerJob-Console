@@ -41,6 +41,12 @@
       </el-col>
     </el-row>
 
+    <!-- 第二行，切换器 -->
+    <el-tabs type="card" v-model="instanceQueryContent.type" @tab-click="listInstanceInfos">
+      <el-tab-pane :label="$t('message.normalInstance')" name="NORMAL"/>
+      <el-tab-pane :label="$t('message.wfInstance')" name="WORKFLOW"/>
+    </el-tabs>
+
     <!-- 第三行，表单 -->
     <el-row>
       <el-table
