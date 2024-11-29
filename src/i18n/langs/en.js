@@ -34,7 +34,7 @@ const en = {
         'phone': 'Phone',
         'email': 'Email',
         'webhook': 'Webhook',
-        'welcomeTitle': 'Welcome to use PowerJob!',
+        'welcomeTitle': 'Welcome to the DataCenter Dispatch System!',
         'login': 'Login',
         'logout': 'Logout',
         'changeAppInfo': 'Change AppInfo',

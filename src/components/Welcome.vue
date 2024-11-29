@@ -47,7 +47,7 @@
              </el-form>
 
              <!-- 应用注册弹窗 -->
-             <el-dialog :title="$t('message.appRegister')" :visible.sync="appRegisterFormVisible" width="35%" >
+             <el-dialog :title="$t('message.appRegister')" :visible.sync="appRegisterFormVisible" width="50%" >
                  <el-form :model="appRegisterForm" style="margin:0 5px">
 
                      <el-form-item :label="$t('message.appName')">
@@ -66,7 +66,7 @@
              </el-dialog>
 
              <!-- 用户注册弹窗 -->
-             <el-dialog :title="$t('message.userRegister')" :visible.sync="userRegisterFormVisible" width="35%" >
+             <el-dialog :title="$t('message.userRegister')" :visible.sync="userRegisterFormVisible" width="50%" >
                  <el-form :model="userRegisterForm" style="margin:0 5px">
 
                      <el-form-item :label="$t('message.name')">

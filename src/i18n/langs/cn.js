@@ -34,7 +34,7 @@ const cn = {
         'phone': '手机号',
         'email': '邮箱地址',
         'webhook': 'WebHook',
-        'welcomeTitle': '欢迎使用 PowerJob!',
+        'welcomeTitle': '欢迎使用数据中台调度系统!',
         'login': '登陆',
         'logout': '退出',
         'changeAppInfo': '修改应用信息',

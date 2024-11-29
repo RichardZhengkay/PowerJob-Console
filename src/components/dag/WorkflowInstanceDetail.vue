@@ -36,6 +36,14 @@
                 <span class="title">{{ wfInstanceDetail.wfInstanceId }}</span>
             </el-col>
         </el-row>
+
+        <el-row class="power-work-info-item">
+          <el-col>
+            {{ $t('message.wfName') }}：
+            <span class="title">{{ wfInstanceDetail.workflowName }}</span>
+          </el-col>
+        </el-row>
+
         <el-row class="power-work-info-item">
             <el-col :span="8">
                 {{$t('message.expectedTriggerTime')}}：
@@ -94,7 +102,7 @@
                     <template v-slot:tool>
                         <div @click="markedSuccess">
                             <el-tooltip :content="$t('message.markerSuccess')" placement="top" effect="light">
-                              <i class="el-icon-document-checked" :style="{'color': selectNode && selectNode.get('model').status == 4 ? '#3D3E3E' : '#BBBBBB'}"></i>
+                              <i class="el-icon-document-checked" :style="{'color': selectNode && selectNode.get('model').status === 4 ? '#3D3E3E' : '#BBBBBB'}"></i>
                             </el-tooltip>
                         </div>
                         <div @click="fetchWfInstanceInfo">
@@ -225,8 +233,7 @@
             // 点击停止实例
             async stop() {
               let that = this;
-              let url = "/wfInstance/stop?wfInstanceId=" + this.$route.params.wfInstanceId +
-                  "&appId=" + this.$store.state.appInfo.id;
+              let url = "/wfInstance/stop?wfInstanceId=" + this.$route.params.wfInstanceId + "&appId=" + this.$store.state.appInfo.id;
               await this.axios.get(url).then(() => {
                 that.$message.success(this.$t('message.success'));
               });
@@ -253,7 +260,7 @@
                 const model = node.get('model');
                 
                 console.log()
-                return model.instanceId || model.nodeType == 2;
+                return model.instanceId || model.nodeType === 2;
             },
 
             /** 选中 node 回调 */
@@ -264,7 +271,7 @@
                 console.log(model);
                 
                 console.log(instanceId);
-                if(type === 2 || type == 3) {
+                if(type === 2 || type === 3) {
                     console.log('1111');
                     this.nodeDetail = model;
                 } else {
@@ -333,7 +340,7 @@
         justify-content: space-between;
     }
     .power-work-info-item {
-        margin: 10px;
+        margin: 15px;
     }
 
     .power-work-info-item-content {
@@ -348,7 +355,7 @@
         text-overflow:ellipsis;
         display: inline-block;
     }
-    
+
 </style>
 
 <style>

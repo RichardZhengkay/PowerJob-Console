@@ -281,7 +281,7 @@
       :title="$t('message.importWorkflowTitle')"
       :visible.sync="workflowVisible"
       direction="rtl"
-      size="60%"
+      size="70%"
     >
       <WorkflowManager
         :isWorkflow="true"

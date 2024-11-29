@@ -16,7 +16,8 @@ import store from "./store";
 import common from "./common";
 
 Vue.use(ElementUI);
-// let baseURL = "http://139.224.83.134:7700";
+// let baseURL = "http://10.18.42.10:7701";
+// let baseURL = "http://192.168.1.151:7700";
 let baseURL = process.env.VUE_APP_BASE_URL;
 // let baseURL = '/api';
 
