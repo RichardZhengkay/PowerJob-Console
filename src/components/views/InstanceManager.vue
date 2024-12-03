@@ -6,7 +6,7 @@
         <el-form :inline="true" :model="instanceQueryContent" class="el-form--inline">
           <el-form-item :label="$t('message.jobId')">
             <el-input v-model="instanceQueryContent.jobId" :placeholder="$t('message.jobId')"
-                      @input="instanceQueryContent.jobId = instanceQueryContent.jobId.replace(/[^1-9]/g, '')"/>
+                      @input="instanceQueryContent.jobId = instanceQueryContent.jobId.replace(/[^0-9]/g, '')"/>
           </el-form-item>
           <el-form-item :label="$t('message.jobName')">
             <el-input v-model="instanceQueryContent.jobName" :placeholder="$t('message.jobName')"/>

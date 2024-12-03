@@ -9,7 +9,7 @@
         <el-form :inline="true" :model="workflowQueryContent" class="el-form--inline">
           <el-form-item :label="$t('message.wfId')">
             <el-input v-model="workflowQueryContent.workflowId" :placeholder="$t('message.wfId')"
-                      @input="workflowQueryContent.workflowId = workflowQueryContent.workflowId.replace(/[^1-9]/g, '')"/>
+                      @input="workflowQueryContent.workflowId = workflowQueryContent.workflowId.replace(/[^0-9]/g, '')"/>
           </el-form-item>
           <el-form-item :label="$t('message.wfName')">
             <el-input v-model="workflowQueryContent.keyword" :placeholder="$t('message.wfName')"/>

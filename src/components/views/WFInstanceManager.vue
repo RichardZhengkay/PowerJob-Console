@@ -8,7 +8,7 @@
           <el-form-item :label="$t('message.wfId')">
             <el-input
                 v-model="wfInstanceQueryContent.workflowId"
-                @input="wfInstanceQueryContent.workflowId = wfInstanceQueryContent.workflowId.replace(/[^1-9]/g, '')"
+                @input="wfInstanceQueryContent.workflowId = wfInstanceQueryContent.workflowId.replace(/[^0-9]/g, '')"
                 :placeholder="$t('message.wfId')"
             />
           </el-form-item>

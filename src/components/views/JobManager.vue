@@ -9,7 +9,7 @@
         <el-form :inline="true" :model="jobQueryContent" class="el-form--inline">
           <el-form-item :label="$t('message.jobId')">
             <el-input v-model="jobQueryContent.jobId" :placeholder="$t('message.jobId')"
-                      @input="jobQueryContent.jobId = jobQueryContent.jobId.replace(/[^1-9]/g, '')"/>
+                      @input="jobQueryContent.jobId = jobQueryContent.jobId.replace(/[^0-9]/g, '')"/>
           </el-form-item>
           <el-form-item :label="$t('message.jobName')">
             <el-input v-model="jobQueryContent.keyword" :placeholder="$t('message.jobName')"/>
