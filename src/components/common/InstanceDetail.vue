@@ -292,6 +292,10 @@ export default {
         this.instanceDetail = this.nodeDetail
       } else {
         let that = this
+        that.queryInstanceDetailRequest = {
+          instanceId: this.instanceId,
+          customQuery: 'status in (5, 6) order by last_modified_time desc'
+        }
         this.axios.post('/instance/detailPlus', that.queryInstanceDetailRequest).then(ret => {
           that.instanceDetail = ret
           if (that.instanceDetail.queriedTaskDetailInfoList !== undefined) {
@@ -318,7 +322,6 @@ export default {
     }
   },
   mounted() {
-    console.log('using InstanceId: ' + this.instanceId)
     this.fetchInstanceDetail()
   },
   watch: {

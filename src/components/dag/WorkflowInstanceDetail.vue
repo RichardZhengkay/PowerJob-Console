@@ -261,8 +261,6 @@ export default {
     /** node 拦截判断 */
     interceptSelectedNode(node) {
       const model = node.get('model')
-
-      console.log()
       return model.instanceId || model.nodeType === 2
     },
 
@@ -271,11 +269,7 @@ export default {
       const model = node ? node.get('model') : {}
       const instanceId = model.instanceId
       const type = model.nodeType
-      console.log(model)
-
-      console.log(instanceId)
       if (type === 2 || type === 3) {
-        console.log('1111')
         this.nodeDetail = model
       } else {
         if (!instanceId) this.$message.warning(this.$t('message.ntfClickNoInstanceNode'))
@@ -285,7 +279,6 @@ export default {
       this.currentInstanceId = instanceId
       this.selectNode = node
       this.currentNodeInfo = node.get('model')
-      console.log(this.currentNodeInfo)
     },
     /** 清除 node 节点 */
     handleClearSelectNode() {
@@ -300,7 +293,6 @@ export default {
     }
   },
   mounted() {
-    console.log('Welcome to WorkflowInstanceDetail!')
     this.fetchWfInstanceInfo()
   }
 }
