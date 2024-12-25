@@ -51,15 +51,15 @@
           <el-col :span="24">
             <div :class="{'power-job-result': true, 'power-job-result-detail': resultAll,}">
               <span class="power-job-text">{{ $t('message.nodeParams') }}:</span>
-              <el-popover width="400" placement="right" trigger="click">
+              <el-popover placement="right" trigger="click" v-if="!resultAll">
                 <div class="power-job-content-slot">
                   {{ instanceDetail.jobParams ? instanceDetail.jobParams : instanceDetail.nodeParams }}
                 </div>
-                <span class="power-job-content" slot="reference"
-                      :style="{width: fixedWidth ? `${fixedWidth - 200}px` : '400px'}">
+                <span class="power-job-content" slot="reference" :style="{width: fixedWidth ? `${fixedWidth - 200}px` : '100%'}">
                   {{ instanceDetail.jobParams ? instanceDetail.jobParams : instanceDetail.nodeParams }}
                 </span>
               </el-popover>
+              <span v-if="resultAll" class="title">{{ instanceDetail.jobParams ? instanceDetail.jobParams : instanceDetail.nodeParams }}</span>
             </div>
           </el-col>
         </el-row>
