@@ -1,11 +1,5 @@
 <template>
   <div class="power-job-panl">
-    <el-row>
-      <div class="power-job-button">
-        <el-button type="primary" @click="fetchInstanceDetail">{{ $t('message.refresh') }}</el-button>
-        <!--        <el-button @click="handleToDetail">{{$t('message.detail') }}</el-button>-->
-      </div>
-    </el-row>
     <div class="power-job-info" :style="{ width: fixedWidth ? fixedWidth : '100%' }">
       <el-card>
         <el-row class="job-detail-text" v-if="instanceDetail.nodeType != 2">
@@ -53,12 +47,20 @@
             <span class="title">{{ instanceDetail.finishedTime }}</span>
           </el-col>
         </el-row>
-        <el-row class="job-detail-text" v-if="instanceDetail.nodeType != 2 && instanceDetail.nodeType != 3">
+        <el-row class="job-detail-text">
           <el-col :span="24">
-            <span class="power-job-text">{{ $t('message.nodeParams') }}:</span>
-            <span class="title">{{
-                instanceDetail.jobParams ? instanceDetail.jobParams : instanceDetail.nodeParams
-              }}</span>
+            <div :class="{'power-job-result': true, 'power-job-result-detail': resultAll,}">
+              <span class="power-job-text">{{ $t('message.nodeParams') }}:</span>
+              <el-popover width="400" placement="right" trigger="click">
+                <div class="power-job-content-slot">
+                  {{ instanceDetail.jobParams ? instanceDetail.jobParams : instanceDetail.nodeParams }}
+                </div>
+                <span class="power-job-content" slot="reference"
+                      :style="{width: fixedWidth ? `${fixedWidth - 200}px` : '400px'}">
+                  {{ instanceDetail.jobParams ? instanceDetail.jobParams : instanceDetail.nodeParams }}
+                </span>
+              </el-popover>
+            </div>
           </el-col>
         </el-row>
         <el-row class="job-detail-text" v-if="instanceDetail.nodeType != 2 && instanceDetail.nodeType != 3">
@@ -395,6 +397,7 @@ export default {
   text-overflow: ellipsis;
   display: inline-block;
   font-size: 14px;
+  font-weight: bold;
   /* line-height: 20px; */
 }
 </style>
