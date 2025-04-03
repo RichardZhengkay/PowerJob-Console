@@ -42,7 +42,7 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button type="primary" @click="listWfInstances">{{ $t('message.query') }}</el-button>
+            <el-button type="primary" @click="queryListWfInstances">{{ $t('message.query') }}</el-button>
             <el-button @click="onClickRest">{{ $t('message.reset') }}</el-button>
           </el-form-item>
         </el-form>
@@ -137,6 +137,10 @@ export default {
     }
   },
   methods: {
+    queryListWfInstances() {
+      this.wfInstanceQueryContent.index = 0
+      this.listWfInstances()
+    },
     listWfInstances() {
       let that = this
       this.axios

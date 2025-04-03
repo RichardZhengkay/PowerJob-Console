@@ -78,6 +78,7 @@ const cn = {
         'scheduleInfo': '定时信息',
         'executeType': '执行类型',
         'processorType': '处理器类型',
+        'alarmPerson': '报警人',
         'status': '状态',
         'operation': '操作',
         'newJob': '新建任务',

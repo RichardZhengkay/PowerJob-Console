@@ -33,7 +33,7 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button type="primary" @click="listInstanceInfos">{{ $t('message.query') }}</el-button>
+            <el-button type="primary" @click="queryListInstanceInfos">{{ $t('message.query') }}</el-button>
             <el-button @click="onClickRest">{{ $t('message.reset') }}</el-button>
           </el-form-item>
         </el-form>
@@ -208,6 +208,11 @@ export default {
     }
   },
   methods: {
+    // 查询任务实例信息
+    queryListInstanceInfos() {
+      this.instanceQueryContent.index = 0
+      this.listInstanceInfos()
+    },
     // 查询任务实例信息
     listInstanceInfos() {
       let that = this

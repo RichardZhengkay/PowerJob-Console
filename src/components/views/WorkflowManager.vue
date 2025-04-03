@@ -25,7 +25,7 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="listWorkflow">{{ $t('message.query') }}</el-button>
+            <el-button type="primary" @click="queryListWorkflow">{{ $t('message.query') }}</el-button>
             <el-button @click="onClickReset">{{ $t('message.reset') }}</el-button>
           </el-form-item>
         </el-form>
@@ -42,9 +42,9 @@
     <!--第二行，工作流数据表格-->
     <el-row>
       <el-table :data="workflowPageResult.data" style="width: 100%" :type="isWorkflow ? 'selection' : null">
-        <el-table-column :show-overflow-tooltip="true" prop="id" :label="$t('message.wfId')" width="120"/>
-        <el-table-column :show-overflow-tooltip="true" prop="wfName" :label="$t('message.wfName')"/>
-        <el-table-column :show-overflow-tooltip="true" :label="$t('message.scheduleInfo')" width="300">
+        <el-table-column :show-overflow-tooltip="true" prop="id" :label="$t('message.wfId')" width="100"/>
+        <el-table-column :show-overflow-tooltip="true" prop="wfName" :label="$t('message.wfName')" width="350"/>
+        <el-table-column :show-overflow-tooltip="true" :label="$t('message.scheduleInfo')" width="200">
           <template slot-scope="scope">
             {{ scope.row.timeExpressionType }}
             <span v-if="['CRON'].includes(scope.row.timeExpressionType)">
@@ -52,7 +52,8 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" :label="$t('message.status')" width="140" v-if="!isWorkflow">
+        <el-table-column :show-overflow-tooltip="true" prop="notifyUserNames" :label="$t('message.alarmPerson')"/>
+        <el-table-column :show-overflow-tooltip="true" :label="$t('message.status')" width="100" v-if="!isWorkflow">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.enable" active-color="#13ce66" inactive-color="#ff4949"
                        @change="switchWorkflow(scope.row)"/>
@@ -152,6 +153,10 @@ export default {
     }
   },
   methods: {
+    queryListWorkflow() {
+      this.workflowQueryContent.index = 0
+      this.listWorkflow()
+    },
     // 查询工作流
     listWorkflow() {
       const that = this

@@ -75,6 +75,7 @@ const en = {
         'scheduleInfo': 'Schedule info',
         'executeType': 'Execution type',
         'processorType': 'Processor type',
+        'alarmPerson': 'Alarm Person',
         'status': 'Status',
         'operation': 'Operation',
         'newJob': 'New job',

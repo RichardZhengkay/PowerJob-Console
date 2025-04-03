@@ -35,7 +35,7 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="listJobInfos">{{ $t('message.query') }}</el-button>
+            <el-button type="primary" @click="queryListJobInfos">{{ $t('message.query') }}</el-button>
             <el-button @click="onClickReset">{{ $t('message.reset') }}</el-button>
             <el-button type="primary" @click="onClickNewJob">{{ $t('message.newJob') }}</el-button>
             <el-button type="success" @click="onClickJobInputButton">{{ $t('message.inputJob') }}</el-button>
@@ -49,7 +49,7 @@
     <el-row>
       <el-table :data="jobInfoPageResult.data" style="width: 100%">
         <el-table-column prop="id" :label="$t('message.jobId')" width="80"/>
-        <el-table-column prop="jobName" :label="$t('message.jobName')"/>
+        <el-table-column prop="jobName" :label="$t('message.jobName')" width="400"/>
         <el-table-column :label="$t('message.scheduleInfo')">
           <template slot-scope="scope">
             {{ scope.row.timeExpressionType }}
@@ -58,23 +58,14 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('message.executeType')">
-          <template slot-scope="scope">
-            {{ translateExecuteType(scope.row.executeType) }}
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('message.processorType')">
-          <template slot-scope="scope">
-            {{ translateProcessorType(scope.row.processorType) }}
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('message.status')" width="80">
+        <el-table-column :show-overflow-tooltip="true" prop="notifyUserNames" :label="$t('message.alarmPerson')" width="400"/>
+        <el-table-column :label="$t('message.status')" width="100">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.enable" active-color="#13ce66" inactive-color="#ff4949"
                        @change="changeJobStatus(scope.row)"/>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('message.operation')" width="150">
+        <el-table-column :label="$t('message.operation')" width="130">
           <template slot-scope="scope">
             <el-button size="mini" type="text" @click="onClickModify(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-popconfirm width="200" title="确定运行该任务吗？" @confirm="onClickRun(scope.row)">
@@ -450,6 +441,7 @@ export default {
   data() {
     return {
       modifiedJobFormVisible: false,
+      index: 0,// 默认值为 0
       // 新建任务对象
       modifiedJobForm: {
         id: undefined,
@@ -605,13 +597,17 @@ export default {
       await this.axios.post('/job/save', this.modifiedJobForm)
       this.modifiedJobFormVisible = false
       this.$message.success(this.$t('message.success'))
+      this.listJobInfos
+    },
+    // 表头查询
+    queryListJobInfos() {
+      this.jobQueryContent.index = 0
       this.listJobInfos()
     },
     // 列出符合当前搜索条件的任务
     listJobInfos() {
       const that = this
       this.axios.post('/job/list', this.jobQueryContent).then((res) => {
-        console.log(res)
         if (res && res.data) {
           res.data = res.data.map(item => {
             const lifeCycle = item.lifeCycle

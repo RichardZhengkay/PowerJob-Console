@@ -224,7 +224,7 @@
                     />
                   </el-form-item>
                   <el-form-item>
-                    <el-button type="primary" @click="listJobInfos">{{
+                    <el-button type="primary" @click="queryListJobInfos">{{
                       $t("message.query")
                     }}</el-button>
                     <el-button type="cancel" @click="onClickReset">{{
@@ -443,6 +443,10 @@ export default {
       this.jobQueryContent.keyword = undefined;
       this.jobQueryContent.jobId = undefined;
       this.listJobInfos();
+    },
+    queryListJobInfos() {
+      this.jobQueryContent.index = 0
+      this.listJobInfos()
     },
     // 列出符合当前搜索条件的任务
     listJobInfos() {
